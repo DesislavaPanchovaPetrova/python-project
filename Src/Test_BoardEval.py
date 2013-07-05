@@ -61,4 +61,6 @@ class TestPiece(unittest.TestCase):
             print("test_GetMove is over")
 
 if __name__ == '__main__':
-    unittest.main()
+    #unittest.main()
+    import doctest
+    doctest.testmod()

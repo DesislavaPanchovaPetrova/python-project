@@ -37,7 +37,7 @@ class Images():
 
 if __name__ == '__main__':
     img = Images()
-    print(os.path.join("image", "white.png"))
-    print(Images.bKing)
-    print(Images.wPawn)
-    print(Images.WhiteSqr)
+##    print(os.path.join("image", "white.png"))
+##    print(Images.bKing)
+##    print(Images.wPawn)
+##    print(Images.WhiteSqr)

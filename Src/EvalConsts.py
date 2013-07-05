@@ -313,21 +313,21 @@ class EvalConsts():
 
 def main():
     # print all matrixes
-    print(PieceEvalTable.bPawnTable)
-    print(PieceEvalTable.bKingTableEndGame)
-    print(PieceEvalTable.bBishopTable)
-    print(PieceEvalTable.bKingTable)
-    print(PieceEvalTable.bKnightTable)
-    print(PieceEvalTable.bQueenTable)
-    print(PieceEvalTable.bRookTable)
+    print(BoardEval.bPawnTable)
+    print(BoardEval.bKingTableEndGame)
+    print(BoardEval.bBishopTable)
+    print(BoardEval.bKingTable)
+    print(BoardEval.bKnightTable)
+    print(BoardEval.bQueenTable)
+    print(BoardEval.bRookTable)
 
-    print(PieceEvalTable.wPawnTable)
-    print(PieceEvalTable.wKingTableEndGame)
-    print(PieceEvalTable.wBishopTable)
-    print(PieceEvalTable.wKingTable)
-    print(PieceEvalTable.wKnightTable)
-    print(PieceEvalTable.wQueenTable)
-    print(PieceEvalTable.wRookTable)
+    print(BoardEval.wPawnTable)
+    print(BoardEval.wKingTableEndGame)
+    print(BoardEval.wBishopTable)
+    print(BoardEval.wKingTable)
+    print(BoardEval.wKnightTable)
+    print(BoardEval.wQueenTable)
+    print(BoardEval.wRookTable)
 
 if __name__ == '__main__':
     main()

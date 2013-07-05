@@ -32,13 +32,13 @@ class BoardEval():
     def NegaMaxAlphaBeta(chessBoard, level, alpha, beta):
         best_move = (-1, -1)   # illegal from and to tuple
 
-        if level == 1 or
+        if (level == 1 or
         ChessRules.IsCheckmate(
             chessBoard.board,
             chessBoard.GetPlayerPieces()) or
         ChessRules.IsCheckmate(
             chessBoard.board,
-            chessBoard.GetOpponentPieces()):
+            chessBoard.GetOpponentPieces())):
                 return (best_move, BoardEval.GetBoardEvaluation(
                         chessBoard.board,
                         chessBoard.GetPlayerPieces(),
