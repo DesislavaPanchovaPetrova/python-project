@@ -9,6 +9,8 @@
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 
+from Piece import PieceEmpty
+from Position import Position
 from King import King
 from Constants import *
 from collections import defaultdict
@@ -27,56 +29,71 @@ class ChessRules:
                91: "H1", 92: "H2", 93: "H3", 94: "H4", 95: "H5", 96: "H6", 97: "H7", 98: "H8"}
 
     @staticmethod
-    def IsCheckmate(board, myPieces):
-        my_valid_moves = ChessRules.GetAllValidMovesList(board, myPieces)
+    def IsCheckmate(chessBoard, myPieces):
+        my_valid_moves = ChessRules.GetAllValidMovesList(chessBoard, myPieces)
         return len(my_valid_moves) == 0
 
     @staticmethod
-    def GetAllValidMovesList(board, pieces):
-        validMovesDict = ChessRules.GetAllValidMovesDict(board, pieces)
+    def GetAllValidMovesList(chessBoard, pieces):
+        validMovesDict = ChessRules.GetAllValidMovesDict(chessBoard, pieces)
         result = list(chain.from_iterable(validMovesDict.values()))
         return result
 
     @staticmethod
-    def GetAllValidMovesDict(board, pieces):
+    def GetAllValidMovesDict(chessBoard, pieces):
         validMoves = dict()
         for piece in pieces:
-            validMoves[piece] = ChessRules.GetValidMovesList(board, piece)
+            validMoves[piece] = ChessRules.GetValidMovesList(chessBoard, piece)
         return validMoves
 
     @staticmethod
-    def GetValidMovesList(board, piece):
+    def GetValidMovesList(chessBoard, piece):
         moves = []
-        possibleMoves = piece.GetPossibleMoves(board)
+        possibleMoves = piece.GetPossibleMoves(chessBoard.board)
         for move in possibleMoves:
-            to_piece = board[move]
-            if not ChessRules.DoesMovePutPlayerInCheck(board, piece, to_piece):
+            to_piece = chessBoard.board[move]
+            if not ChessRules.DoesMovePutPlayerInCheck(chessBoard, piece, to_piece):
+                moves.append(move)
+            if ChessRules.DoesMoveRemoveThreatPiece(chessBoard.board, piece.color, to_piece):
                 moves.append(move)
         return moves
 
     @staticmethod
-    def DoesMovePutPlayerInCheck(board, piece, toPiece):
-        copied_board = deepcopy(board)
-        copied_board[toPiece.position.value] = piece
-        copied_board[piece.position.value] = toPiece
-        return ChessRules.IsPlayerInCheck(copied_board, piece.color)
-
-    @staticmethod
-    def IsPlayerInCheck(board, my_color):
-        """ Returns True in case King of player with color my_color
-            is in Check.
-        """
+    def DoesMoveRemoveThreatPiece(board, my_color, toPiece):
         kingPos = 0
         for pos in POS_MAP.keys():
             piece = board[pos]
             if isinstance(piece, King) and piece.color == my_color:
                 kingPos = pos
+
+        moves = toPiece.GetPossibleMoves(board)
+        if kingPos in moves:
+            return True
+
+    @staticmethod
+    def DoesMovePutPlayerInCheck(chessBoard, piece, toPiece):
+        copied_board = deepcopy(chessBoard.board)
+        copied_board[toPiece.position.value] = deepcopy(piece)
+        copied_board[toPiece.position.value].position = \
+            Position(toPiece.position.value)
+        copied_board[piece.position.value] = PieceEmpty(piece.position.value)
+        return ChessRules.IsPlayerInCheck(copied_board, piece.color)
+
+    @staticmethod
+    def IsPlayerInCheck(board, color):
+        """ Returns True in case King of player with color
+            is in Check.
+        """
+        kingPos = 0
+        for pos in POS_MAP.keys():
+            piece = board[pos]
+            if isinstance(piece, King) and piece.color == color:
+                kingPos = piece.position.value
+
         if kingPos != 0:
-            enemyColor = Color.GetOpposite(my_color)
             for pos in POS_MAP.keys():
                 enemyPiece = board[pos]
-                if enemyColor == enemyPiece.color:
-                    enemyMoves = enemyPiece.GetPossibleMoves(board)
-                    if kingPos in enemyMoves:
+                if enemyPiece.color == Color.GetOpposite(color):
+                    if kingPos in enemyPiece.GetPossibleMoves(board):
                         return True
         return False
