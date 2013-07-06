@@ -24,7 +24,7 @@ class Knight(Piece):
     def GetPossibleMoves(self, board):
         possibleMoves = []
 
-        for move in [-21, -19, 21, 19]:
+        for move in [-8, -12, -21, -19, 21, 19, 12, 8]:
             movePosition = (self.position + move).value
             movePiece = board[movePosition]
             if movePiece.type == PieceType.Empty \

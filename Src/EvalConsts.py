@@ -306,7 +306,7 @@ class EvalConsts():
 
     MobilityShare = 7
 
-    DEPTH = 3
+    DEPTH = 2  # 3
     MIN_INT = -10**10
     MAX_INT = 10*10
 
