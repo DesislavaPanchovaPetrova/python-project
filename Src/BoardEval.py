@@ -34,19 +34,19 @@ class BoardEval():
 
         if (level == 1 or
         ChessRules.IsCheckmate(
-            chessBoard.board,
+            chessBoard,
             chessBoard.GetPlayerPieces()) or
         ChessRules.IsCheckmate(
-            chessBoard.board,
+            chessBoard,
             chessBoard.GetOpponentPieces())):
                 return (best_move, BoardEval.GetBoardEvaluation(
-                        chessBoard.board,
+                        chessBoard,
                         chessBoard.GetPlayerPieces(),
                         chessBoard.GetOpponentPieces(),
                         chessBoard.playerColor))
 
         for (piece, moves_list) in ChessRules.GetAllValidMovesDict(
-                chessBoard.board, chessBoard.GetPlayerPieces()).items():
+                chessBoard, chessBoard.GetPlayerPieces()).items():
             for move in moves_list:
                 next_board = BoardEval.MovePiece(chessBoard, piece, move)
                 (_, score) = BoardEval.NegaMaxAlphaBeta(
@@ -68,7 +68,8 @@ class BoardEval():
         return copy_board
 
     @staticmethod
-    def GetBoardEvaluation(board, my_pieces, opponent_pices, my_color):
+    def GetBoardEvaluation(chessBoard, my_pieces, opponent_pices, my_color):
+        board = chessBoard.board
         sign = -1 if my_color == Color.White else 1
         boardEvaluation = 0
 
@@ -112,9 +113,9 @@ class BoardEval():
                 boardEvaluation += EvalConsts.bKingTable[pos]
 
         countOfValidMovesForWhite = len(
-            ChessRules.GetAllValidMovesList(board, opponent_pices))
+            ChessRules.GetAllValidMovesList(chessBoard, opponent_pices))
         countOfValidMovesForBlack = len(
-            ChessRules.GetAllValidMovesList(board, my_pieces))
+            ChessRules.GetAllValidMovesList(chessBoard, my_pieces))
         boardEvaluation = boardEvaluation + EvalConsts.MobilityShare * \
             (countOfValidMovesForBlack - countOfValidMovesForWhite)
         return boardEvaluation

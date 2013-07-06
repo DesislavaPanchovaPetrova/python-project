@@ -174,6 +174,7 @@ class ChessBoard():
                            91, 92, 93, 94, 95, 96, 97, 98]
         self.bPieces = [self.board[pos] for pos in self.bPiecesPos]
 
+        self.temporary_moves = []
         self.playerColors = cycle([Color.White, Color.Black])
         self.playerColor = self.SwitchPlayer()
 
@@ -190,28 +191,54 @@ class ChessBoard():
             return self.wPieces
 
     def RemoveOpponentPiece(self, pos):
+        removed_piece = self.board[pos]
         if self.playerColor == Color.White:
             self.bPieces.remove(self.board[pos])
             self.bPiecesPos.remove(pos)
         elif self.playerColor == Color.Black:
             self.wPieces.remove(self.board[pos])
             self.wPiecesPos.remove(pos)
+
         self.board[pos] = PieceEmpty(pos)
+        return removed_piece
+
+    def RemoveMyPiece(self, pos):
+        removed_piece = self.board[pos]
+        if self.playerColor == Color.White:
+            self.wPieces.remove(self.board[pos])
+            self.wPiecesPos.remove(pos)
+        elif self.playerColor == Color.Black:
+            self.bPieces.remove(self.board[pos])
+            self.bPiecesPos.remove(pos)
+
+        self.board[pos] = PieceEmpty(pos)
+        return removed_piece
+
+    def RemovePiece(self, pos):
+        removed_piece = self.board[pos]
+        if removed_piece.color == Color.White:
+            self.wPieces.remove(self.board[pos])
+            self.wPiecesPos.remove(pos)
+        elif removed_piece.color == Color.Black:
+            self.bPieces.remove(self.board[pos])
+            self.bPiecesPos.remove(pos)
+
+        self.board[pos] = PieceEmpty(pos)
+        return removed_piece
+
+    def AddMyPieceToList(self, pos):
+        if self.playerColor == Color.White:
+            self.wPiecesPos.append(pos)
+            self.wPieces.append(self.board[pos])
+        elif self.playerColor == Color.Black:
+            self.bPiecesPos.append(pos)
+            self.bPieces.append(self.board[pos])
 
     def MoveMyPiece(self, fromPos, toPos):
-        self.board[toPos] = self.board[fromPos]
-        self.board[toPos].position = Position(toPos)
-        if self.playerColor == Color.White:
-            self.wPieces.remove(self.board[fromPos])
-            self.wPiecesPos.remove(fromPos)
-            self.wPiecesPos.append(toPos)
-            self.wPieces.append(self.board[toPos])
-        elif self.playerColor == Color.Black:
-            self.bPieces.remove(self.board[fromPos])
-            self.bPiecesPos.remove(fromPos)
-            self.bPiecesPos.append(toPos)
-            self.bPieces.append(self.board[toPos])
-        self.board[fromPos] = PieceEmpty(fromPos)
+        my_piece = self.RemoveMyPiece(fromPos)
+        self.board[toPos] = my_piece  # move piece
+        self.board[toPos].position = Position(toPos)  # correct position
+        self.AddMyPieceToList(toPos)
 
     def MakeMove(self, myPiecePos, toPos):
         capture_piece = self.board[toPos]
@@ -221,14 +248,44 @@ class ChessBoard():
 
         self.playerColor = self.SwitchPlayer()
 
+##    def MovePiece(self, fromPos, toPos):
+##        fromPiece = self.board[fromPos]
+##        if fromPiece.color == Color.White:
+##            self.wPieces.remove(fromPiece)
+##            self.wPiecesPos.remove(fromPos)
+##            fromPiece.position = Position(toPos)
+##            self.wPieces.append(fromPiece)
+##            self.wPiecesPos.append(toPos)
+##        elif fromPiece.color == Color.Black:
+##            self.bPieces.remove(fromPiece)
+##            self.bPiecesPos.remove(fromPos)
+##            fromPiece.position = Position(toPos)
+##            self.bPieces.append(fromPiece)
+##            self.bPiecesPos.append(toPos)
+##
+##    def MakeTemopraryMove(self, myPiecePos, toPos):
+##        remove_piece = self.RemovePiece(toPos)
+##        self.MovePiece(myPiecePos, toPos)
+##
+##        self.temporary_moves.append(((myPiecePos, toPos), remove_piece))
+##
+##        self.playerColor = self.SwitchPlayer()
+##
+##    def UndoTemporaryMove(self):
+##        if any(self.temporary_moves):
+##            self.playerColor = self.SwitchPlayer()  # go back to previuos player
+##            (myPiecePos, toPos), remove_piece  = self.temporary_moves.pop()
+##            self.MoveMyPiece(toPos, myPiecePos)
+##            self.board[toPos] = remove_piece
+
     def SwitchPlayer(self):
         return next(self.playerColors)
 
     def GetValidMoves(self, fromPos):
-        return ChessRules.GetValidMovesList(self.board, self.board[fromPos])
+        return ChessRules.GetValidMovesList(self, self.board[fromPos])
 
     def GameOver(self):
         if self.playerColor == Color.White:
-            return ChessRules.IsCheckmate(self.board, self.wPieces)
+            return ChessRules.IsCheckmate(self, self.wPieces)
         else:
-            return ChessRules.IsCheckmate(self.board, self.bPieces)
+            return ChessRules.IsCheckmate(self, self.bPieces)

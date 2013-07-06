@@ -41,7 +41,7 @@ class StartGame():
 
         winer = playerOnMove
         ctypes.windll.user32.MessageBoxW(
-            0, "Winner is "+winer.name, "Game is over.", 0)
+            0, "Winner is " + winer.name, "Game is over.", 0)
 
         # exit game
         pygame.quit()
