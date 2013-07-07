@@ -37,6 +37,7 @@ class StartGame():
             elif playerOnMove.IsHuman():
                 fromPos, toPos = self.guiBoard.GetPlayerInput()
 
+            print("MakeMove from:", fromPos, " to:", toPos)
             self.guiBoard.MakeMove(fromPos, toPos)
 
         winer = playerOnMove

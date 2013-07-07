@@ -73,8 +73,6 @@ class Position():
     def GetChessPosition(x, y):
         file = x // Position.SQUARE_DIM
         rank = 9 - y // Position.SQUARE_DIM
-        print("x y ", str(x), str(y))
-        print("rank file ", str(rank), str(file))
         if (rank, file) in Position.RANK_FILE_TO_POS.keys():
             return Position.RANK_FILE_TO_POS[(rank, file)]
 
