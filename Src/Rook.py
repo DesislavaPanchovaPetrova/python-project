@@ -11,6 +11,7 @@
 
 from Piece import Piece
 from Constants import *
+from ImagesData import Images
 
 
 class Rook(Piece):
@@ -48,10 +49,11 @@ class Rook(Piece):
 class WhiteRook(Rook):
 
     def __init__(self, pos):
+        self.imagePath = Images.wRook
         Rook.__init__(self, Color.White, PieceType.wRook, pos)
-
 
 class BlackRook(Rook):
 
     def __init__(self, pos):
+        self.imagePath = Images.bRook
         Rook.__init__(self, Color.Black, PieceType.bRook, pos)

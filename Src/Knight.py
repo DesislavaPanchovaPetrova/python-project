@@ -11,6 +11,7 @@
 
 from Piece import Piece
 from Constants import *
+from ImagesData import Images
 
 
 class Knight(Piece):
@@ -37,10 +38,12 @@ class Knight(Piece):
 class WhiteKnight(Knight):
 
     def __init__(self, pos):
+        self.imagePath = Images.wKnight
         Knight.__init__(self, Color.White, PieceType.wKnight, pos)
 
 
 class BlackKnight(Knight):
 
     def __init__(self, pos):
+        self.imagePath = Images.bKnight
         Knight.__init__(self, Color.Black, PieceType.bKnight, pos)

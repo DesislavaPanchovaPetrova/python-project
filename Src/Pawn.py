@@ -11,7 +11,7 @@
 
 from Piece import Piece
 from Constants import *
-
+from ImagesData import Images
 
 class Pawn(Piece):
 
@@ -28,6 +28,7 @@ class Pawn(Piece):
 class WhitePawn(Pawn):
 
     def __init__(self, pos):
+        self.imagePath = Images.wPawn
         Pawn.__init__(self, Color.White, PieceType.wPawn, pos)
 
     def move_forward1(self):
@@ -74,6 +75,7 @@ class WhitePawn(Pawn):
 class BlackPawn(Pawn):
 
     def __init__(self, pos):
+        self.imagePath = Images.bPawn
         Pawn.__init__(self, Color.Black, PieceType.bPawn, pos)
 
     def move_forward1(self):

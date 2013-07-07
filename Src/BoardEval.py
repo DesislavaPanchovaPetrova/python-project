@@ -35,15 +35,11 @@ class BoardEval():
         if (level == 1 or
         ChessRules.IsCheckmate(
             chessBoard,
-            chessBoard.GetPlayerPieces()) or
-        ChessRules.IsCheckmate(
-            chessBoard,
-            chessBoard.GetOpponentPieces())):
+            chessBoard.GetPlayerPieces())):
                 return (best_move, BoardEval.GetBoardEvaluation(
                         chessBoard,
                         chessBoard.GetPlayerPieces(),
-                        chessBoard.GetOpponentPieces(),
-                        chessBoard.playerColor))
+                        chessBoard.GetOpponentPieces()))
 
         for (piece, moves_list) in ChessRules.GetAllValidMovesDict(
                 chessBoard, chessBoard.GetPlayerPieces()).items():
@@ -68,7 +64,7 @@ class BoardEval():
         return copy_board
 
     @staticmethod
-    def GetBoardEvaluation(chessBoard, my_pieces, opponent_pices, my_color):
+    def GetBoardEvaluation(chessBoard, my_pieces, opponent_pices):
         board = chessBoard.board
         sign = -1 if my_color == Color.White else 1
         boardEvaluation = 0

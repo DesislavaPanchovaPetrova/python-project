@@ -45,47 +45,7 @@ class GUIBoard:
         self.screen = pygame.display.set_mode(self.DisplaySize)
         self.screen.fill(self.CSSGold)
         pygame.display.update()
-        self.LoadImages()
         self.fontDefault = pygame.font.Font(None, self.FontSize)
-
-    def LoadImages(self):
-        self.black_pawn = pygame.image.load(Images.bPawn).convert()
-        self.black_pawn = pygame.transform.scale(
-            self.black_pawn, self.SquareDimTuple)
-        self.black_rook = pygame.image.load(Images.bRook).convert()
-        self.black_rook = pygame.transform.scale(
-            self.black_rook, self.SquareDimTuple)
-        self.black_knight = pygame.image.load(Images.bKnight).convert()
-        self.black_knight = pygame.transform.scale(
-            self.black_knight, self.SquareDimTuple)
-        self.black_bishop = pygame.image.load(Images.bBishop).convert()
-        self.black_bishop = pygame.transform.scale(
-            self.black_bishop, self.SquareDimTuple)
-        self.black_king = pygame.image.load(Images.bKing).convert()
-        self.black_king = pygame.transform.scale(
-            self.black_king, self.SquareDimTuple)
-        self.black_queen = pygame.image.load(Images.bQueen).convert()
-        self.black_queen = pygame.transform.scale(
-            self.black_queen, self.SquareDimTuple)
-
-        self.white_pawn = pygame.image.load(Images.wPawn).convert()
-        self.white_pawn = pygame.transform.scale(
-            self.white_pawn, self.SquareDimTuple)
-        self.white_rook = pygame.image.load(Images.wRook).convert()
-        self.white_rook = pygame.transform.scale(
-            self.white_rook, self.SquareDimTuple)
-        self.white_knight = pygame.image.load(Images.wKnight).convert()
-        self.white_knight = pygame.transform.scale(
-            self.white_knight, self.SquareDimTuple)
-        self.white_bishop = pygame.image.load(Images.wBishop).convert()
-        self.white_bishop = pygame.transform.scale(
-            self.white_bishop, self.SquareDimTuple)
-        self.white_king = pygame.image.load(Images.wKing).convert()
-        self.white_king = pygame.transform.scale(
-            self.white_king, self.SquareDimTuple)
-        self.white_queen = pygame.image.load(Images.wQueen).convert()
-        self.white_queen = pygame.transform.scale(
-            self.white_queen, self.SquareDimTuple)
 
     def DrawBlankBoard(self):
         for pos in self.chessBoard.POS_MAP.keys():
@@ -124,31 +84,7 @@ class GUIBoard:
 
     def DrawPieces(self):
         for piece in self.chessBoard.board:
-            position = piece.position.ScreenXY()
-            if piece.type == PieceType.bPawn:
-                self.screen.blit(self.black_pawn, position)
-            if piece.type == PieceType.bRook:
-                self.screen.blit(self.black_rook, position)
-            if piece.type == PieceType.bKnight:
-                self.screen.blit(self.black_knight, position)
-            if piece.type == PieceType.bBishop:
-                self.screen.blit(self.black_bishop, position)
-            if piece.type == PieceType.bQueen:
-                self.screen.blit(self.black_queen, position)
-            if piece.type == PieceType.bKing:
-                self.screen.blit(self.black_king, position)
-            if piece.type == PieceType.wPawn:
-                self.screen.blit(self.white_pawn, position)
-            if piece.type == PieceType.wRook:
-                self.screen.blit(self.white_rook, position)
-            if piece.type == PieceType.wKnight:
-                self.screen.blit(self.white_knight, position)
-            if piece.type == PieceType.wBishop:
-                self.screen.blit(self.white_bishop, position)
-            if piece.type == PieceType.wQueen:
-                self.screen.blit(self.white_queen, position)
-            if piece.type == PieceType.wKing:
-                self.screen.blit(self.white_king, position)
+            piece.draw(self.screen)
 
     def Redraw(self, moves=[]):
         self.screen.fill(self.CSSGold)
