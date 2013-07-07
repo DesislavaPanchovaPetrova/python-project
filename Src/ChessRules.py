@@ -72,11 +72,12 @@ class ChessRules:
 
     @staticmethod
     def DoesMovePutPlayerInCheck(chessBoard, piece, toPiece):
+        piecePos = piece.position.value
+        toPos = toPiece.position.value
         copied_board = deepcopy(chessBoard.board)
-        copied_board[toPiece.position.value] = deepcopy(piece)
-        copied_board[toPiece.position.value].position = \
-            Position(toPiece.position.value)
-        copied_board[piece.position.value] = PieceEmpty(piece.position.value)
+        copied_board[toPos] = deepcopy(piece)
+        copied_board[toPos].position = Position(toPos)
+        copied_board[piecePos] = PieceEmpty(piecePos)
         return ChessRules.IsPlayerInCheck(copied_board, piece.color)
 
     @staticmethod
